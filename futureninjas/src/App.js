@@ -59,6 +59,7 @@ const Page = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	background-color: #F5F3FC;
 `
 const ButtonMenu = styled(Button)`
 	margin-inline-end: 20px;
