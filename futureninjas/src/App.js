@@ -10,6 +10,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { PageInitial } from './components/PageInitial'
+import Contrato from './components/Contrato'
+import axios from 'axios'
+import FormularioAddJobs from './components/FormularioAddJob'
 
 const generateClassName = createGenerateClassName()
 const jss = create({
@@ -143,6 +146,7 @@ class App extends React.Component {
 		}
 	}
 	currentPage = (currentPage) => {
+		const promessaListaJobs = axios.get()
 		switch (currentPage) {
 			case 'initial':
 				return (<PageInitial/>)
@@ -193,6 +197,8 @@ class App extends React.Component {
 						<Footer>
 							Footer
 						</Footer>
+						<Contrato/>
+						<FormularioAddJobs/>
 					</Main>
 					{/* <AppContainer /> */}
 				</MuiThemeProvider>

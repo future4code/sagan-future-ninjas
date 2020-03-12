@@ -10,7 +10,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
-    "react-jss": "^8.0.0",
+    "react-jss": "^8.6.1",
     "react-scripts": "3.2.0",
     "styled-components": "^4.4.0"
   },
