@@ -42,7 +42,7 @@ inputValMax= e =>{
     this.setState({valMax: e.target.value})
 }
 filterListByValMInAndValMax = (min,max)=>{
-    debugger
+    
     let jobList = this.state.jobList
     jobList = this.state.jobList.filter((job)=>{
         if(min !== ""){
@@ -91,6 +91,34 @@ changeTaken = async (id) =>{
     }
     console.log(job)
 }
+filterAlphabetically =()=>{
+    let jobList = this.state.jobList
+    jobList.sort(function(jobA, jobB){
+        if(jobA.title < jobB.title) { return -1; }
+        if(jobA.title > jobB.title) { return 1; }
+        return 0;
+    })
+    this.setState({filterList: jobList})
+}
+
+filterByValue =()=>{
+    let jobList = this.state.jobList
+    jobList.sort(function(jobA, jobB){
+        if(parseInt(jobA.value) < parseInt(jobB.value) ) { return -1; }
+        if(parseInt(jobA.value)  > parseInt(jobB.value) ) { return 1; }
+        return 0;
+    })
+    this.setState({filterList: jobList})
+}
+filterByDate =()=>{
+    let jobList = this.state.jobList
+    jobList.sort(function(jobA, jobB){
+        if(Date.parse(jobA.dueDate) < Date.parse(jobB.dueDate) ) { return -1; }
+        if(Date.parse(jobA.dueDate)  > Date.parse(jobB.dueDate) ) { return 1; }
+        return 0;
+    })
+    this.setState({filterList: jobList})
+}
 
 render(){
     const list = this.state.filterList
@@ -111,6 +139,9 @@ render(){
                 <input  placeholder="valor minimo" value={this.state.valMin} onChange={this.inputValMin}></input>
                 <input  placeholder="valor maximo" value={this.state.valMax} onChange={this.inputValMax}></input>
                 <button onClick={()=>this.filterListByValMInAndValMax(this.state.valMin,this.state.valMax)}>filtrar</button>
+                <button onClick={()=>this.filterAlphabetically()}>Ordernar Por Titulo</button>
+                <button onClick={()=>this.filterByValue()}>Ordernar Por valor</button>
+                <button onClick={()=>this.filterByDate()}>Ordernar Por Data</button>
             </div>
         )    
     }
