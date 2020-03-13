@@ -38,6 +38,11 @@ class Contrato extends React.Component {
 
     componentDidMount(){
         this.alteraEstadoBotao()
+        this.alteraEstadoTaken()
+    }
+
+    alteraEstadoTaken = ()=>{
+        this.setState({taken: this.props.taken})
     }
 
     alteraEstadoBotao = () => {
@@ -54,6 +59,7 @@ class Contrato extends React.Component {
     }
 
     render() {
+        console.log("takencontract: "+ this.props.taken)
         return (
             <JobWrapper>
                 <InfoWrapper>
@@ -69,17 +75,13 @@ class Contrato extends React.Component {
                     {
                         this.state.botaoAceitarServico&&<button onClick={()=>{
                             this.props.changeTaken()
-                            this.setState({taken: this.props.taken})
+                            this.setState({taken: !this.state.taken})
                         }}>Aceitar serviço</button>
                     }
-                    {
-                        ()=>{
-                            console.log("takencontract: "+ this.props.taken)
-                        }
-                    }
+                    <div>olha só {this.state.taken}</div>
                     {
                         
-                        !this.state.taken?<p>Serviço já contratado</p>:<p>Serviço não contratado</p>
+                        this.state.taken?<p>Serviço já contratado</p>:<p>Serviço não contratado</p>
                     }
                     {/* A props acima refere-se ao botão de aceitar que será adicionado na lista
                         de jobs exibida ao prestador de serviços */}

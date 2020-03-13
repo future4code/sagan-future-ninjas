@@ -41,7 +41,6 @@ class ListaJobs extends Component {
         }
     }
     componentDidMount() {
-        console.log("entrei no lugar mais importante")
         this.listImport();
     }
     listImport = async () => {
@@ -63,7 +62,6 @@ class ListaJobs extends Component {
     }
     inputValMin = e => {
         this.setState({ valMin: e.target.value })
-        console.log(this.state.valMin)
     }
     inputValMax = e => {
         this.setState({ valMax: e.target.value })
@@ -99,9 +97,6 @@ class ListaJobs extends Component {
         const job = this.state.jobList.filter((job) => {
             return job.id === id
         })
-        alert("teste")
-        
-        console.log(this.state.jobList)
         if (!job[0].taken) {
             try {
                 const result = await axios.put(`https://us-central1-future-apis.cloudfunctions.net/futureNinjas/jobs/${id}/take`,
@@ -120,8 +115,6 @@ class ListaJobs extends Component {
             }
         }
         this.listImport()
-        console.log(this.state.jobList)
-
     }
     filterAlphabetically = () => {
         let jobList = this.state.jobList
@@ -130,7 +123,6 @@ class ListaJobs extends Component {
             if (jobA.title > jobB.title) { return 1; }
             return 0;
         })
-        this.setState({ filterList: jobList })
     }
 
     filterByValue = () => {
@@ -176,7 +168,7 @@ class ListaJobs extends Component {
                         </FiltroBotao>
                     </Filtro>
                     <List>
-                        {list.map(job => (
+                        {list.map((job, index) => (
                             <Contrato taken={job.taken} changeTaken={()=>{this.changeTaken(job.id)}} descricaoJob={job.description} key={job.id} currentMenu={this.props.currentMenu} tituloJob={job.title} tituloprazoJob={job.dueDate} valorJob={job.value} pagJob={job.paymentMethods[0]} />
                         ))}
                     </List>
