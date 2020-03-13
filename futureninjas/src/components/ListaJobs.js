@@ -10,6 +10,8 @@ class ListaJobs extends Component{
             filterList:undefined,
             title: "",
             descricao:"",
+            valMin: "",
+            valMax: "",
         }
     }
 componentDidMount(){
@@ -32,7 +34,27 @@ inputTitle = e =>{
 inputDescricao = e =>{
     this.setState({descricao: e.target.value})
 }
-filterList = (title,descricao) =>{
+inputValMin = e =>{
+    this.setState({valMin: e.target.value})
+    console.log(this.state.valMin)
+}
+inputValMax= e =>{
+    this.setState({valMax: e.target.value})
+}
+filterListByValMInAndValMax = (min,max)=>{
+    debugger
+    let jobList = this.state.jobList
+    jobList = this.state.jobList.filter((job)=>{
+        if(min !== ""){
+            return parseInt(job.value) > min
+        }
+        else if(max !== ""){
+            return parseInt(job.value) < max
+        }
+    })
+    this.setState({filterList: jobList}) 
+}
+filterListByTitleAndDescription = (title,descricao) =>{
     
     let jobList = this.state.jobList.filter((job)=>{
         return job.title.includes(title)
@@ -41,9 +63,7 @@ filterList = (title,descricao) =>{
         jobList = jobList.filter((job)=>{
             return job.description.includes(descricao)
         })
-    }
-    
-    
+    }  
     this.setState({filterList: jobList})
 }
 
@@ -87,7 +107,10 @@ render(){
                 ))}
                 <input placeholder="Filtrar por titulo..." value={this.state.title} onChange={this.inputTitle}></input>
                 <input placeholder="Filtrar por Descrição..." value={this.state.descricao} onChange={this.inputDescricao}></input>
-                <button onClick={()=>this.filterList(this.state.title,this.state.descricao)}>filtrar</button>
+                <button onClick={()=>this.filterListByTitleAndDescription(this.state.title,this.state.descricao)}>filtrar</button>
+                <input  placeholder="valor minimo" value={this.state.valMin} onChange={this.inputValMin}></input>
+                <input  placeholder="valor maximo" value={this.state.valMax} onChange={this.inputValMax}></input>
+                <button onClick={()=>this.filterListByValMInAndValMax(this.state.valMin,this.state.valMax)}>filtrar</button>
             </div>
         )    
     }
