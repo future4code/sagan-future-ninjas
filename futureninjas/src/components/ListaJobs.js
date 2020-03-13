@@ -1,6 +1,15 @@
 import React, { Component } from 'react'
-//import styled from 'styled-components'
+import styled from 'styled-components'
 import axios from 'axios'
+
+const List = styled.div`
+    
+`
+const ListItem = styled.div`
+    border: solid black 1px;
+    display: flex;
+    flex-direction:column;
+`
 
 class ListaJobs extends Component{
     constructor(props){
@@ -69,13 +78,14 @@ filterListByTitleAndDescription = (title,descricao) =>{
 
 changeTaken = async (id) =>{
     
-    const job = this.state.jobList.jobs.filter((job)=>{
+    const job = this.state.jobList.filter((job)=>{
         return job.id === id
     })
     
-    if(!job.taken){
+    
+    if(!job[0].taken){
         try{
-            const result = await axios.put(`https://us-central1-future-apis.cloudfunctions.net/futureNinjas/jobs/:id/take`,id,
+            const result = await axios.put(`https://us-central1-future-apis.cloudfunctions.net/futureNinjas/jobs/${id}/take`,
             {headers: {'Content-Type': 'application/json'}})
         }catch(error){
             console.log(error)
@@ -83,13 +93,14 @@ changeTaken = async (id) =>{
     }
     else{
         try{
-            const result = await axios.put(`https://us-central1-future-apis.cloudfunctions.net/futureNinjas/jobs/:id/giveup`,id,
+            const result = await axios.put(`https://us-central1-future-apis.cloudfunctions.net/futureNinjas/jobs/${id}/giveup`,
             {headers: {'Content-Type': 'application/json'}})
         }catch(error){
             console.log(error)
         }  
     }
-    console.log(job)
+    this.listImport()
+    
 }
 filterAlphabetically =()=>{
     let jobList = this.state.jobList
@@ -126,13 +137,15 @@ render(){
     if(list!== undefined){
         return(
             <div>
-                {console.log(this.state.jobList)}
+                <List>
                 {list.map(job=>(
-                    <div>
-                        <p>{job.title}</p><p>{job.description}</p><p>{job.paymentMethods[0]}</p>
-                        <p>{job.dueDate}</p><p>{job.value}</p><button onClick={()=>this.changeTaken(job.id)}>Pegar/Largar</button>
-                    </div>   
+                    <ListItem>
+                        <p>Titulo: {job.title}</p><p> Descrição:{job.description}</p><p> Forma De Pagamento: {job.paymentMethods[0]}</p>
+                        <p>Prazo: {job.dueDate}</p><p>Valor Do Pagamento: {job.value}</p><button onClick={()=>this.changeTaken(job.id)}>Pegar/Largar</button>
+                    </ListItem>   
                 ))}
+                </List>
+                
                 <input placeholder="Filtrar por titulo..." value={this.state.title} onChange={this.inputTitle}></input>
                 <input placeholder="Filtrar por Descrição..." value={this.state.descricao} onChange={this.inputDescricao}></input>
                 <button onClick={()=>this.filterListByTitleAndDescription(this.state.title,this.state.descricao)}>filtrar</button>
