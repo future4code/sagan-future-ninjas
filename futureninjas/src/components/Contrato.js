@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import axios from 'axios'
 
 const JobWrapper = styled.div`
     border: 1px black dotted;
@@ -27,26 +26,67 @@ const DescicaoWrapper = styled.div`
     width: 200%;
 `
 
-function Contrato (props){
+class Contrato extends React.Component {
+    constructor(props) {
+        super(props)
 
-    return(
+        this.state = {
+            botaoAceitarServico: false,
+            taken: false
+        }
+    }
+
+    componentDidMount(){
+        this.alteraEstadoBotao()
+    }
+
+    alteraEstadoBotao = () => {
+        if (this.props.currentMenu === "provider") {
+            this.setState({
+                botaoAceitarServico: true
+            })
+        }
+        else{
+            this.setState({
+                botaoAceitarServico: false
+            })
+        }
+    }
+
+    render() {
+        return (
             <JobWrapper>
                 <InfoWrapper>
-                    <h3>{props.tituloJob}</h3>
-                    <span>Prazo:</span><span>{props.prazoJob}</span><br/>
-                    <span>Valor:</span><span>{props.valorJob}</span><br/>
-                    <span>Forma de pagamento:</span><span>{props.pagJob}</span><br/>
+                    <h3>{this.props.tituloJob}</h3>
+                    <span>Prazo:</span><span>{this.props.tituloprazoJob}</span><br />
+                    <span>Valor:</span><span>{this.props.valorJob}</span><br />
+                    <span>Forma de pagamento:</span><span>{this.props.pagJob}</span><br />
                 </InfoWrapper>
                 <DescicaoWrapper>
                     <p>
-                    {props.descricaoJob}                    
+                        {this.props.descricaoJob}
                     </p>
-                    {props.botaoAceitarJob}
+                    {
+                        this.state.botaoAceitarServico&&<button onClick={()=>{
+                            this.props.changeTaken()
+                            this.setState({taken: this.props.taken})
+                        }}>Aceitar serviço</button>
+                    }
+                    {
+                        ()=>{
+                            console.log("takencontract: "+ this.props.taken)
+                        }
+                    }
+                    {
+                        
+                        this.state.taken?<p>Serviço já contratado</p>:<p>Serviço não contratado</p>
+                    }
                     {/* A props acima refere-se ao botão de aceitar que será adicionado na lista
-                    de jobs exibida ao prestador de serviços */}
+                        de jobs exibida ao prestador de serviços */}
                 </DescicaoWrapper>
             </JobWrapper>
         )
+    }
 }
 
 export default Contrato;
