@@ -18,11 +18,11 @@ const FormWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center
+    align-items: center;
     margin: 10px auto;
     width: 30%;
     border: 1px dotted black;
-    padding: 5px
+    padding: 5px;
 `
 
 class FormularioAddJobs extends React.Component{
@@ -80,10 +80,8 @@ class FormularioAddJobs extends React.Component{
             "paymentMethods": [this.state.payment],
             "dueDate": this.state.date
         }
-        const addJobPromise = 
-        axios.post('https://us-central1-future-apis.cloudfunctions.net/futureNinjas/jobs',
-        createJobData,
-        {headers: {'Content-Type': 'application/json'}})
+        const addJobPromise = axios.post(`https://us-central1-future-apis.cloudfunctions.net/futureNinjas/jobs`,
+        createJobData,{headers: {'Content-Type': 'application/json'}})
         addJobPromise.then((response => {
             console.log(response.data)
         })).catch((error)=> {
