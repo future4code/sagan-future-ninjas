@@ -37,9 +37,12 @@ filterList = (title,descricao) =>{
     let jobList = this.state.jobList.filter((job)=>{
         return job.title.includes(title)
     })
-    jobList = this.state.jobList.filter((job)=>{
-        return job.description.includes(descricao)
-    })
+    if(descricao !== ""){
+        jobList = jobList.filter((job)=>{
+            return job.description.includes(descricao)
+        })
+    }
+    
     
     this.setState({filterList: jobList})
 }
