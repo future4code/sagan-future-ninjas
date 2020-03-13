@@ -79,7 +79,7 @@ class Contrato extends React.Component {
                     }
                     {
                         
-                        this.state.taken?<p>Serviço já contratado</p>:<p>Serviço não contratado</p>
+                        !this.state.taken?<p>Serviço já contratado</p>:<p>Serviço não contratado</p>
                     }
                     {/* A props acima refere-se ao botão de aceitar que será adicionado na lista
                         de jobs exibida ao prestador de serviços */}

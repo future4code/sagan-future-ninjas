@@ -100,7 +100,8 @@ class ListaJobs extends Component {
             return job.id === id
         })
         alert("teste")
-
+        
+        console.log(this.state.jobList)
         if (!job[0].taken) {
             try {
                 const result = await axios.put(`https://us-central1-future-apis.cloudfunctions.net/futureNinjas/jobs/${id}/take`,
@@ -176,7 +177,7 @@ class ListaJobs extends Component {
                     </Filtro>
                     <List>
                         {list.map(job => (
-                            <Contrato taken={job} changeTaken={()=>{this.changeTaken(job.id)}} descricaoJob={job.description} key={job.id} currentMenu={this.props.currentMenu} tituloJob={job.title} tituloprazoJob={job.dueDate} valorJob={job.value} pagJob={job.paymentMethods[0]} />
+                            <Contrato taken={job.taken} changeTaken={()=>{this.changeTaken(job.id)}} descricaoJob={job.description} key={job.id} currentMenu={this.props.currentMenu} tituloJob={job.title} tituloprazoJob={job.dueDate} valorJob={job.value} pagJob={job.paymentMethods[0]} />
                         ))}
                     </List>
                 </Main>
