@@ -11,7 +11,6 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { PageInitial } from './components/PageInitial'
 import Contrato from './components/Contrato'
-import axios from 'axios'
 import FormularioAddJobs from './components/FormularioAddJob'
 import ListaJobs from './components/ListaJobs'
 
@@ -101,7 +100,7 @@ class App extends React.Component {
 						<ButtonMenu onClick={() => {
 							this.setState({
 								currentMenu: 'provider',
-								currentPage: 'list'
+								currentPage: 'listJobsProvider'
 							})
 						}} variant="contained" color="primary"><strong>Prestar serviço</strong></ButtonMenu>
 					</Fragment>
@@ -114,9 +113,9 @@ class App extends React.Component {
 								currentPage: 'contract'
 							})
 						}} variant="contained" color="primary"><strong>Contratar serviço</strong></ButtonMenu>
-						<ButtonMenu onClick={()=>{
+						<ButtonMenu onClick={() => {
 							this.setState({
-								currentPage: 'listJobs'
+								currentPage: 'listJobsContract'
 							})
 						}} variant="contained" color="primary"><strong>Meus contratos</strong></ButtonMenu>
 						<Input placeholder="Pesquisar serviço" />
@@ -126,14 +125,14 @@ class App extends React.Component {
 			case 'provider':
 				return (
 					<Fragment>
-						<ButtonMenu onClick={()=>{
+						<ButtonMenu onClick={() => {
 							this.setState({
-								currentPage: 'listJobs'
+								currentPage: 'listJobsProvider'
 							})
 						}} variant="contained" color="primary"><strong>Ofertas de serviços</strong></ButtonMenu>
-						<ButtonMenu onClick={()=>{
+						<ButtonMenu onClick={() => {
 							this.setState({
-								currentPage: 'listJobs'
+								currentPage: 'listJobsProvider'
 							})
 						}} variant="contained" color="primary"><strong>Serviços aceitos</strong></ButtonMenu>
 						<Input placeholder="Pesquisar serviço" />
@@ -147,16 +146,20 @@ class App extends React.Component {
 		}
 	}
 	currentPage = (currentPage) => {
-		const promessaListaJobs = axios.get()
+		console.log('exec')
+		console.log(currentPage)
 		switch (currentPage) {
 			case 'initial':
-				return (<PageInitial/>)
+				return (<PageInitial />)
 			case 'contract':
-				return ('COLOCAR AQUI COMPONENTE DA PAGINA DE CONTRATO')
+				return (<FormularioAddJobs />)
 			case 'myContracts':
-				return ('COLOCAR AQUI COMPONENTS DA LISTA DE CONTRATO')
-			case 'listJobs':
-				return ('COLOCAR AQUI O COMPONENTE DA LISTA DE TRABALHOS com filtro de aceitos por call back')
+				return (<ListaJobs currentMenu="contract" />)
+			case 'listJobsContract':
+				return (<ListaJobs currentMenu="contract" />)
+			case 'listJobsProvider':
+				console.log("entrei no p")
+				return (<ListaJobs currentMenu="provider" />)
 			default:
 				return (
 					<Fragment>Página não encontrada</Fragment>
@@ -164,8 +167,6 @@ class App extends React.Component {
 		}
 	}
 	render() {
-
-
 		return (
 			<JssProvider jss={jss} generateClassName={generateClassName}>
 				<MuiThemeProvider theme={theme}>
@@ -181,7 +182,7 @@ class App extends React.Component {
 								<Button onClick={() => {
 									this.setState({
 										currentMenu: 'provider',
-										currentPage: 'listJobs'
+										currentPage: 'listJobsProvider'
 									})
 								}} color="default"><strong>PRESTAR SERVIÇO</strong></Button>
 							</MenuTop>
@@ -194,15 +195,11 @@ class App extends React.Component {
 						</Header>
 						<Page>
 							{this.currentPage(this.state.currentPage)}
-							<ListaJobs/>
 						</Page>
 						<Footer>
 							Footer
 						</Footer>
-						<Contrato/>
-						<FormularioAddJobs/>
 					</Main>
-					{/* <AppContainer /> */}
 				</MuiThemeProvider>
 			</JssProvider>
 		)
