@@ -3,16 +3,16 @@ import styled from 'styled-components'
 import axios from 'axios'
 
 const JobWrapper = styled.div`
-    border: 1px black dotted
+    border: 1px black dotted;
     display: flex;
     justify-content: center;
-    align-items: center
+    align-items: center;
     width: 60%;
     margin: 10px auto;
     min-height: 150px;
 `
 const InfoWrapper = styled.div`
-    border-right: 1px dotted black
+    border-right: 1px dotted black;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -24,7 +24,7 @@ const InfoWrapper = styled.div`
 const DescicaoWrapper = styled.div`
     padding: 5px;
     text-align: center;
-    width: 200%
+    width: 200%;
 `
 
 function Contrato (props){

@@ -13,6 +13,7 @@ import { PageInitial } from './components/PageInitial'
 import Contrato from './components/Contrato'
 import axios from 'axios'
 import FormularioAddJobs from './components/FormularioAddJob'
+import ListaJobs from './components/ListaJobs'
 
 const generateClassName = createGenerateClassName()
 const jss = create({
@@ -193,6 +194,7 @@ class App extends React.Component {
 						</Header>
 						<Page>
 							{this.currentPage(this.state.currentPage)}
+							<ListaJobs/>
 						</Page>
 						<Footer>
 							Footer
