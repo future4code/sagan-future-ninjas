@@ -7,10 +7,7 @@ import styled from 'styled-components'
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
 import { PageInitial } from './components/PageInitial'
-import Contrato from './components/Contrato'
 import FormularioAddJobs from './components/FormularioAddJob'
 import ListaJobs from './components/ListaJobs'
 
@@ -21,6 +18,15 @@ const jss = create({
 	insertionPoint: document.getElementById('jss-insertion-point'),
 })
 
+const ListaContract = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: center;
+`
+const ListaProvider = styled.div`
+	display: flex;
+	justify-content: center;
+`
 const theme = createMuiTheme({
 	palette: {
 		primary: {
@@ -44,6 +50,7 @@ const Footer = styled.div`
 	background-color: #ac8ede;
 	display: flex;
 	justify-content:center;
+	align-items: center;
 	height: 80px;
 `
 const MenuTop = styled.div`
@@ -67,13 +74,6 @@ const Page = styled.div`
 const ButtonMenu = styled(Button)`
 	margin-inline-end: 20px;
 `
-const Input = styled(InputBase)`
-	width: 129px;
-	border: 1px solid black;
-	border-radius: 5px;
-`
-
-
 class App extends React.Component {
 	constructor(props) {
 		super(props)
@@ -110,16 +110,16 @@ class App extends React.Component {
 					<Fragment>
 						<ButtonMenu onClick={() => {
 							this.setState({
+								currentMenu: 'contract',
 								currentPage: 'contract'
 							})
 						}} variant="contained" color="primary"><strong>Contratar serviço</strong></ButtonMenu>
 						<ButtonMenu onClick={() => {
 							this.setState({
+								currentMenu: 'contract',
 								currentPage: 'listJobsContract'
 							})
 						}} variant="contained" color="primary"><strong>Meus contratos</strong></ButtonMenu>
-						<Input placeholder="Pesquisar serviço" />
-						<SearchIcon />
 					</Fragment>
 				)
 			case 'provider':
@@ -127,16 +127,16 @@ class App extends React.Component {
 					<Fragment>
 						<ButtonMenu onClick={() => {
 							this.setState({
+								currentMenu: 'provider',
 								currentPage: 'listJobsProvider'
 							})
 						}} variant="contained" color="primary"><strong>Ofertas de serviços</strong></ButtonMenu>
 						<ButtonMenu onClick={() => {
 							this.setState({
-								currentPage: 'listJobsProvider'
+								currentMenu: 'provider',
+								currentPage: 'listJobsProviderAccepts'
 							})
 						}} variant="contained" color="primary"><strong>Serviços aceitos</strong></ButtonMenu>
-						<Input placeholder="Pesquisar serviço" />
-						<SearchIcon />
 					</Fragment>
 				)
 			default:
@@ -146,20 +146,17 @@ class App extends React.Component {
 		}
 	}
 	currentPage = (currentPage) => {
-		console.log('exec')
-		console.log(currentPage)
 		switch (currentPage) {
 			case 'initial':
 				return (<PageInitial />)
 			case 'contract':
 				return (<FormularioAddJobs />)
-			case 'myContracts':
-				return (<ListaJobs currentMenu="contract" />)
 			case 'listJobsContract':
-				return (<ListaJobs currentMenu="contract" />)
+				return (<ListaContract><ListaJobs currentMenu="contract" /></ListaContract>)
 			case 'listJobsProvider':
-				console.log("entrei no p")
-				return (<ListaJobs currentMenu="provider" />)
+				return (<ListaProvider><ListaJobs currentMenu="provider"/></ListaProvider>)
+			case 'listJobsProviderAccepts':
+				return (<ListaJobs currentMenu="providerAccepts"/>)
 			default:
 				return (
 					<Fragment>Página não encontrada</Fragment>
@@ -197,7 +194,7 @@ class App extends React.Component {
 							{this.currentPage(this.state.currentPage)}
 						</Page>
 						<Footer>
-							Footer
+							©futureninjas 2020
 						</Footer>
 					</Main>
 				</MuiThemeProvider>
