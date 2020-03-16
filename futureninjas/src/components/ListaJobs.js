@@ -4,28 +4,16 @@ import axios from 'axios'
 import Contrato from './Contrato'
 
 const List = styled.div`
-    width: 80%;
-`
-const ListItem = styled.div`
-    border: solid black 1px;
-    display: flex;
-    flex-direction:column;
 `
 const Main = styled.div`
-    width: 80%;
-    display:flex;
+   width: 80%;
 `
 const Filtro = styled.div`
-    width: 20%;
+    height: 30px;
     display:flex;
-    flex-direction:column;
 `
-const FiltroItem = styled.div`
-    display:flex;
-    flex-direction:column;
-`
-const FiltroBotao = styled.div`
-    display:flex;
+const ButonOrder = styled.button`
+    height: 50px;    
 `
 
 class ListaJobs extends Component {
@@ -37,7 +25,7 @@ class ListaJobs extends Component {
             title: "",
             descricao: "",
             valMin: "",
-            valMax: "",
+            valMax: ""
         }
     }
     componentDidMount() {
@@ -48,7 +36,14 @@ class ListaJobs extends Component {
         try {
             result = await axios.get(`https://us-central1-future-apis.cloudfunctions.net/futureNinjas/jobs`,
                 { headers: { 'Content-Type': 'application/json' } })
-            this.setState({ jobList: result.data.jobs, filterList: result.data.jobs })
+            if (this.props.currentMenu==="providerAccepts"){
+                const jobs = result.data.jobs.filter((job)=>{
+                    return (job.taken===true)
+                })
+                this.setState({ jobList: jobs, filterList: jobs })
+            }else{
+                this.setState({ jobList: result.data.jobs, filterList: result.data.jobs })
+            }
         } catch (error) {
             console.log(error)
         }
@@ -101,7 +96,7 @@ class ListaJobs extends Component {
             try {
                 const result = await axios.put(`https://us-central1-future-apis.cloudfunctions.net/futureNinjas/jobs/${id}/take`,
                     { headers: { 'Content-Type': 'application/json' } })
-                
+
             } catch (error) {
                 console.log(error)
             }
@@ -151,25 +146,19 @@ class ListaJobs extends Component {
             return (
                 <Main>
                     <Filtro>
-                        <FiltroItem>
-                            <input placeholder="Filtrar por titulo..." value={this.state.title} onChange={this.inputTitle}></input>
-                            <input placeholder="Filtrar por Descrição..." value={this.state.descricao} onChange={this.inputDescricao}></input>
-                            <button onClick={() => this.filterListByTitleAndDescription(this.state.title, this.state.descricao)}>filtrar</button>
-                        </FiltroItem>
-                        <FiltroItem>
-                            <input placeholder="valor minimo" value={this.state.valMin} onChange={this.inputValMin}></input>
-                            <input placeholder="valor maximo" value={this.state.valMax} onChange={this.inputValMax}></input>
-                            <button onClick={() => this.filterListByValMInAndValMax(this.state.valMin, this.state.valMax)}>filtrar</button>
-                        </FiltroItem>
-                        <FiltroBotao>
-                            <button onClick={() => this.filterAlphabetically()}>Ordernar Por Titulo</button>
-                            <button onClick={() => this.filterByValue()}>Ordernar Por valor</button>
-                            <button onClick={() => this.filterByDate()}>Ordernar Por Data</button>
-                        </FiltroBotao>
+                        <input placeholder="Filtrar por titulo..." value={this.state.title} onChange={this.inputTitle}></input>
+                        <input placeholder="Filtrar por Descrição..." value={this.state.descricao} onChange={this.inputDescricao}></input>
+                        <button onClick={() => this.filterListByTitleAndDescription(this.state.title, this.state.descricao)}>filtrar</button>
+                        <input placeholder="valor minimo" value={this.state.valMin} onChange={this.inputValMin}></input>
+                        <input placeholder="valor maximo" value={this.state.valMax} onChange={this.inputValMax}></input>
+                        <button onClick={() => this.filterListByValMInAndValMax(this.state.valMin, this.state.valMax)}>filtrar</button>
+                        <ButonOrder onClick={() => this.filterAlphabetically()}>Ordernar Por Titulo</ButonOrder>
+                        <ButonOrder onClick={() => this.filterByValue()}>Ordernar Por valor</ButonOrder>
+                        <ButonOrder onClick={() => this.filterByDate()}>Ordernar Por Data</ButonOrder>
                     </Filtro>
                     <List>
                         {list.map((job, index) => (
-                            <Contrato taken={job.taken} changeTaken={()=>{this.changeTaken(job.id)}} descricaoJob={job.description} key={job.id} currentMenu={this.props.currentMenu} tituloJob={job.title} tituloprazoJob={job.dueDate} valorJob={job.value} pagJob={job.paymentMethods[0]} />
+                            <Contrato taken={job.taken} changeTaken={() => { this.changeTaken(job.id) }} descricaoJob={job.description} key={job.id} currentMenu={this.props.currentMenu} tituloJob={job.title} tituloprazoJob={job.dueDate} valorJob={job.value} pagJob={job.paymentMethods[0]} />
                         ))}
                     </List>
                 </Main>

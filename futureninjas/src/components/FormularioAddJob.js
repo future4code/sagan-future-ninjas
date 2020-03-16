@@ -11,7 +11,7 @@ const StyledElemnts = styled(InputLabel)`
     font-weight: bold;
 `
 const StyledDate = styled(Input)`
-    margin-bottom: 10px
+    margin-bottom: 10px;
 `
 
 const FormWrapper = styled.div`
@@ -21,8 +21,10 @@ const FormWrapper = styled.div`
     align-items: center;
     margin: 10px auto;
     width: 30%;
-    border: 1px dotted black;
     padding: 5px;
+    @media (max-width: 480px){
+        width: 80%;
+    }
 `
 
 class FormularioAddJobs extends React.Component{
